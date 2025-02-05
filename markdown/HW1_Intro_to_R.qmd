@@ -1,0 +1,82 @@
+---
+title: "HW1 Intro to R"
+subtitle: BIOL 607
+format: html
+---
+
+# Earthquakes off Fiji
+
+### 1 - str() & summary()
+
+With the **str()** function you are able to view the amount of observations in data frame, view the amount fo variables/row, and view the class of certain objects. **summary()** can be used to find different aggregate functions of each variable given in data frame.
+
+```{r}
+data(quakes)
+str(quakes)
+summary(quakes)
+```
+
+### 2 - Showing Entirety of Column
+
+```{r}
+quakes$long
+```
+
+### 3 - Finding Unique Values
+
+```{r}
+unique(quakes$long)
+length(unique(quakes$long))
+```
+
+### 4 - Range
+
+```{r}
+range(quakes$depth)
+```
+
+### Impressing Myself
+
+```{r}
+max(quakes$mag)
+quakes[quakes$mag == 6.4,]
+```
+
+The largest magnitude was recorded at station 122 on row 152
+
+# LaTeX Syntax
+
+### 5 - LaTex Mathmatical Symbols
+
+$$
+x = \mu
+$$
+
+### 6 - Difference of Equation Presenting
+
+The difference between the two is, \$ stays inline compared to \$\$ the equation is displayed $Y_i = 3X_i$ $$
+Y_i = 3X_i
+$$
+
+### 7 - Superscripts
+
+$$
+a^2 = b^2 + c^2
+$$
+
+### Impress Myself
+
+$$
+y_i \sim \mathcal{N}(\hat{y}_i,\sigma^2) 
+$$
+
+
+## Meta Questions
+
+1. This was not my first experience with R as I have used it slightly within a Evolution course, but throughout the introduction to R week I was slowly regain memories of how to properly use R. All though it was not the most challenging problems, I was introduced to new concepts and fleshed out the basics in order for me to gain a true comprehension of R. 
+
+2. I enjoy having the clear opportunity to learn more outside of class especially when it is more self-sufficient just like the LaTeX portion of the assignment. The LaTex portion was not too difficult, although I did struggle to find certain LaTex notations as I was looking for more specific characters. I also do see the future applicatin within LaTeX, especially when it comes to printing mathematical equations. 
+
+3. It took me roughly an hour to fully complete the assignment, as well as about an hour or so to fully set up my GitHub.
+
+4. I would give myself a strong assessment on this assignment, as I was able to complete each portion to its fullest while fully comprehending what process were taking place.  
