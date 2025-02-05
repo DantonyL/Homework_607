@@ -3,7 +3,7 @@ project:
   output-dir: docs
   
 website: 
-  title: "BIOL 607 Homework"
+  title: "BIOL 607/617 Assignments"
   navbar: 
     left: 
       - href: index.qmd
