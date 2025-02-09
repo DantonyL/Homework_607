@@ -1,0 +1,43 @@
+---
+title: "HW2 ggplot"
+subtitle: BIOL 607
+format: html
+---
+
+### 1. Setup
+```{r}
+#| warning: false 
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(forcats)
+library(RColorBrewer)
+
+theme_set(theme_bw(base_size=12))
+
+ice <- read_csv("http://biol607.github.io/homework/data/NH_seaice_extent_monthly_1978_2016.csv") |>
+  mutate(Month_Name = factor(Month_Name),
+         Month_Name = fct_reorder(Month_Name, Month))
+str(ice)
+```
+
+### 2. Boxplots
+```{r}
+boxp <- ggplot(data = ice,
+               mapping = aes(x = Month_Name,
+                             y = Extent,
+                             fill = Month))
+
+final <- boxp + 
+  geom_boxplot(notch = TRUE, notchwidth = 0.8, 
+               outlier.color = "red", outlier.fill = "black", outlier.size = 1) +
+  scale_fill_viridis_c() +
+  labs(title = "Variability in Sea Ice",
+       x = "Month")
+final
+```
+
+### 3. Ridgeline (ggridges)
+```{r}
+library(ggridges)
+```

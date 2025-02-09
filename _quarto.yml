@@ -9,5 +9,6 @@ website:
       - href: index.qmd
         text: Home
       - HW1_Intro_to_R.qmd
+      - HW2_ggplot.qmd
       
   

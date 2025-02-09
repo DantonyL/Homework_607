@@ -26,5 +26,12 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "HW2_ggplot.html",
+    "href": "HW2_ggplot.html",
+    "title": "HW2 ggplot",
+    "section": "",
+    "text": "1. Setup\n\nlibrary(dplyr)\nlibrary(readr)\nlibrary(ggplot2)\nlibrary(forcats)\nlibrary(RColorBrewer)\n\ntheme_set(theme_bw(base_size=12))\n\nice &lt;- read_csv(\"http://biol607.github.io/homework/data/NH_seaice_extent_monthly_1978_2016.csv\") |&gt;\n  mutate(Month_Name = factor(Month_Name),\n         Month_Name = fct_reorder(Month_Name, Month))\nstr(ice)\n\ntibble [458 × 6] (S3: tbl_df/tbl/data.frame)\n $ Year      : num [1:458] 1978 1978 1979 1979 1979 ...\n $ Month     : num [1:458] 11 12 2 3 6 7 9 10 1 3 ...\n $ Day       : num [1:458] 1 1 1 1 1 1 1 1 1 1 ...\n $ Extent    : num [1:458] 10.7 12.7 15.9 16.6 13.1 ...\n $ Missing   : num [1:458] 0 0 0 0 0 0 0 0 0 0 ...\n $ Month_Name: Factor w/ 12 levels \"Jan\",\"Feb\",\"Mar\",..: 11 12 2 3 6 7 9 10 1 3 ...\n\n\n\n\n2. Boxplots\n\nboxp &lt;- ggplot(data = ice,\n               mapping = aes(x = Month_Name,\n                             y = Extent,\n                             fill = Month))\n\nfinal &lt;- boxp + \n  geom_boxplot(notch = TRUE, notchwidth = 0.8, \n               outlier.color = \"red\", outlier.fill = \"black\", outlier.size = 1) +\n  scale_fill_viridis_c() +\n  labs(title = \"Variability in Sea Ice\",\n       x = \"Month\")\nfinal\n\n\n\n\n\n\n\n\n\n\n3. Ridgeline (ggridges)\n\nlibrary(ggridges)"
   }
 ]
