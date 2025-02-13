@@ -4,7 +4,8 @@ subtitle: BIOL 607
 format: html
 ---
 
-### 1. Setup
+## 1. Setup
+
 ```{r}
 #| warning: false 
 library(dplyr)
@@ -12,32 +13,111 @@ library(readr)
 library(ggplot2)
 library(forcats)
 library(RColorBrewer)
+pacman::p_load_gh("Mikata-Project/ggthemr")
 
 theme_set(theme_bw(base_size=12))
 
 ice <- read_csv("http://biol607.github.io/homework/data/NH_seaice_extent_monthly_1978_2016.csv") |>
   mutate(Month_Name = factor(Month_Name),
          Month_Name = fct_reorder(Month_Name, Month))
+
 str(ice)
 ```
 
-### 2. Boxplots
+## 2. Boxplots
 ```{r}
+ggthemr('light')
+
 boxp <- ggplot(data = ice,
                mapping = aes(x = Month_Name,
                              y = Extent,
                              fill = Month))
 
-final <- boxp + 
+finalbp <- boxp + 
   geom_boxplot(notch = TRUE, notchwidth = 0.8, 
                outlier.color = "red", outlier.fill = "black", outlier.size = 1) +
-  scale_fill_viridis_c() +
-  labs(title = "Variability in Sea Ice",
+  theme(legend.position = "none") +
+  scale_fill_viridis_c(option = "H") +
+  labs(title = "Variability in Sea Ice per Month",
        x = "Month")
-final
+
+finalbp
 ```
 
-### 3. Ridgeline (ggridges)
+## 3. Ridgeline (ggridges)
 ```{r}
+#| message: false
+#| warning: false
 library(ggridges)
+
+ridge <- ggplot(ice, aes(x = Extent, y = Month_Name, fill = ..x..)) +
+  geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
+   scale_fill_viridis_c(direction = -1, option = "A") +
+  theme(legend.position = "None") +
+  labs(Title = "Variability in Sea Ice per Month",
+       y = "Month")
+
+ridge
 ```
+
+## 4. Groups from the Continuous
+```{r}
+seasons <- ggplot(ice, aes(y = Year, x = Extent, color = Extent, group = Month)) +
+  geom_line() +
+  scale_color_viridis_c(direction = -1, option = "B") +
+  facet_wrap(vars(cut_interval(Month, n=4)))
+seasons +
+  theme(legend.position = "None") +
+  labs(title = "Variability in Sea Ice \nThroughout the Years", 
+       caption = "Organized by Quarters of the Year")
+```
+
+## 5. Using Colors
+
+#### a. ColorFindr
+```{r}
+library(colorfindr)
+
+aab <- get_colors("https://upload.wikimedia.org/wikipedia/commons/8/89/Flag_of_Antigua_and_Barbuda.svg") |>
+  make_palette(n = 5, show = TRUE)
+```
+Antigua and Barbados Flag Color Palette created by colorfindr
+
+#### b. Line Plot
+```{r}
+library(ggiraph)
+
+colors <- ggplot(ice, aes(x = Month_Name, y = Extent, group = Year, color = Year)) +
+  geom_line() +
+  scale_color_gradientn(colors = aab) +
+  geom_point_interactive(aes(x = Month, y = Extent, tooltip = Year, color = Year, data_id = Month_Name), size = 1) +
+  theme_get() +
+  theme(legend.position = "None") +
+  labs(title = "Variability in Sea Ice",
+       x = "Month", 
+       caption = "Interact with Points for Exact Year")
+
+
+x <- girafe(ggobj = colors)
+if (interactive()) {print(x)}
+x
+```
+
+
+## gganimate
+```{r}
+#| message: false
+#| warning: false
+library(gganimate)
+
+p1 <- ggplot(ice, aes(x = Month_Name, y = Extent, group = Year, color = Year))+
+  geom_line() +
+  labs(title = 'Variability in Sea Ice in Year: {frame_time}', x = 'Month', y = 'Extent') +
+  transition_time(Year) +
+  scale_color_gradientn(colors = aab) + 
+  theme_gray()
+
+animate(p1)
+```
+
+## Impress Myself

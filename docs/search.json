@@ -32,6 +32,55 @@
     "href": "HW2_ggplot.html",
     "title": "HW2 ggplot",
     "section": "",
-    "text": "1. Setup\n\nlibrary(dplyr)\nlibrary(readr)\nlibrary(ggplot2)\nlibrary(forcats)\nlibrary(RColorBrewer)\n\ntheme_set(theme_bw(base_size=12))\n\nice &lt;- read_csv(\"http://biol607.github.io/homework/data/NH_seaice_extent_monthly_1978_2016.csv\") |&gt;\n  mutate(Month_Name = factor(Month_Name),\n         Month_Name = fct_reorder(Month_Name, Month))\nstr(ice)\n\ntibble [458 × 6] (S3: tbl_df/tbl/data.frame)\n $ Year      : num [1:458] 1978 1978 1979 1979 1979 ...\n $ Month     : num [1:458] 11 12 2 3 6 7 9 10 1 3 ...\n $ Day       : num [1:458] 1 1 1 1 1 1 1 1 1 1 ...\n $ Extent    : num [1:458] 10.7 12.7 15.9 16.6 13.1 ...\n $ Missing   : num [1:458] 0 0 0 0 0 0 0 0 0 0 ...\n $ Month_Name: Factor w/ 12 levels \"Jan\",\"Feb\",\"Mar\",..: 11 12 2 3 6 7 9 10 1 3 ...\n\n\n\n\n2. Boxplots\n\nboxp &lt;- ggplot(data = ice,\n               mapping = aes(x = Month_Name,\n                             y = Extent,\n                             fill = Month))\n\nfinal &lt;- boxp + \n  geom_boxplot(notch = TRUE, notchwidth = 0.8, \n               outlier.color = \"red\", outlier.fill = \"black\", outlier.size = 1) +\n  scale_fill_viridis_c() +\n  labs(title = \"Variability in Sea Ice\",\n       x = \"Month\")\nfinal\n\n\n\n\n\n\n\n\n\n\n3. Ridgeline (ggridges)\n\nlibrary(ggridges)"
+    "text": "library(dplyr)\nlibrary(readr)\nlibrary(ggplot2)\nlibrary(forcats)\nlibrary(RColorBrewer)\npacman::p_load_gh(\"Mikata-Project/ggthemr\")\n\ntheme_set(theme_bw(base_size=12))\n\nice &lt;- read_csv(\"http://biol607.github.io/homework/data/NH_seaice_extent_monthly_1978_2016.csv\") |&gt;\n  mutate(Month_Name = factor(Month_Name),\n         Month_Name = fct_reorder(Month_Name, Month))\n\nstr(ice)\n\ntibble [458 × 6] (S3: tbl_df/tbl/data.frame)\n $ Year      : num [1:458] 1978 1978 1979 1979 1979 ...\n $ Month     : num [1:458] 11 12 2 3 6 7 9 10 1 3 ...\n $ Day       : num [1:458] 1 1 1 1 1 1 1 1 1 1 ...\n $ Extent    : num [1:458] 10.7 12.7 15.9 16.6 13.1 ...\n $ Missing   : num [1:458] 0 0 0 0 0 0 0 0 0 0 ...\n $ Month_Name: Factor w/ 12 levels \"Jan\",\"Feb\",\"Mar\",..: 11 12 2 3 6 7 9 10 1 3 ..."
+  },
+  {
+    "objectID": "HW2_ggplot.html#setup",
+    "href": "HW2_ggplot.html#setup",
+    "title": "HW2 ggplot",
+    "section": "",
+    "text": "library(dplyr)\nlibrary(readr)\nlibrary(ggplot2)\nlibrary(forcats)\nlibrary(RColorBrewer)\npacman::p_load_gh(\"Mikata-Project/ggthemr\")\n\ntheme_set(theme_bw(base_size=12))\n\nice &lt;- read_csv(\"http://biol607.github.io/homework/data/NH_seaice_extent_monthly_1978_2016.csv\") |&gt;\n  mutate(Month_Name = factor(Month_Name),\n         Month_Name = fct_reorder(Month_Name, Month))\n\nstr(ice)\n\ntibble [458 × 6] (S3: tbl_df/tbl/data.frame)\n $ Year      : num [1:458] 1978 1978 1979 1979 1979 ...\n $ Month     : num [1:458] 11 12 2 3 6 7 9 10 1 3 ...\n $ Day       : num [1:458] 1 1 1 1 1 1 1 1 1 1 ...\n $ Extent    : num [1:458] 10.7 12.7 15.9 16.6 13.1 ...\n $ Missing   : num [1:458] 0 0 0 0 0 0 0 0 0 0 ...\n $ Month_Name: Factor w/ 12 levels \"Jan\",\"Feb\",\"Mar\",..: 11 12 2 3 6 7 9 10 1 3 ..."
+  },
+  {
+    "objectID": "HW2_ggplot.html#boxplots",
+    "href": "HW2_ggplot.html#boxplots",
+    "title": "HW2 ggplot",
+    "section": "2. Boxplots",
+    "text": "2. Boxplots\n\nggthemr('light')\n\nboxp &lt;- ggplot(data = ice,\n               mapping = aes(x = Month_Name,\n                             y = Extent,\n                             fill = Month))\n\nfinalbp &lt;- boxp + \n  geom_boxplot(notch = TRUE, notchwidth = 0.8, \n               outlier.color = \"red\", outlier.fill = \"black\", outlier.size = 1) +\n  theme(legend.position = \"none\") +\n  scale_fill_viridis_c(option = \"H\") +\n  labs(title = \"Variability in Sea Ice per Month\",\n       x = \"Month\")\n\nfinalbp"
+  },
+  {
+    "objectID": "HW2_ggplot.html#ridgeline-ggridges",
+    "href": "HW2_ggplot.html#ridgeline-ggridges",
+    "title": "HW2 ggplot",
+    "section": "3. Ridgeline (ggridges)",
+    "text": "3. Ridgeline (ggridges)\n\nlibrary(ggridges)\n\nridge &lt;- ggplot(ice, aes(x = Extent, y = Month_Name, fill = ..x..)) +\n  geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +\n   scale_fill_viridis_c(direction = -1, option = \"A\") +\n  theme(legend.position = \"None\") +\n  labs(Title = \"Variability in Sea Ice per Month\",\n       y = \"Month\")\n\nridge"
+  },
+  {
+    "objectID": "HW2_ggplot.html#groups-from-the-continuous",
+    "href": "HW2_ggplot.html#groups-from-the-continuous",
+    "title": "HW2 ggplot",
+    "section": "4. Groups from the Continuous",
+    "text": "4. Groups from the Continuous\n\nseasons &lt;- ggplot(ice, aes(y = Year, x = Extent, color = Extent, group = Month)) +\n  geom_line() +\n  scale_color_viridis_c(direction = -1, option = \"B\") +\n  facet_wrap(vars(cut_interval(Month, n=4)))\nseasons +\n  theme(legend.position = \"None\") +\n  labs(title = \"Variability in Sea Ice \\nThroughout the Years\", \n       caption = \"Organized by Quarters of the Year\")"
+  },
+  {
+    "objectID": "HW2_ggplot.html#using-colors",
+    "href": "HW2_ggplot.html#using-colors",
+    "title": "HW2 ggplot",
+    "section": "5. Using Colors",
+    "text": "5. Using Colors\n\na. ColorFindr\n\nlibrary(colorfindr)\n\naab &lt;- get_colors(\"https://upload.wikimedia.org/wikipedia/commons/8/89/Flag_of_Antigua_and_Barbuda.svg\") |&gt;\n  make_palette(n = 5, show = TRUE)\n\n\n\n\n\n\n\n\nAntigua and Barbados Flag Color Palette created by colorfindr\n\n\nb. Line Plot\n\nlibrary(ggiraph)\n\ncolors &lt;- ggplot(ice, aes(x = Month_Name, y = Extent, group = Year, color = Year)) +\n  geom_line() +\n  scale_color_gradientn(colors = aab) +\n  geom_point_interactive(aes(x = Month, y = Extent, tooltip = Year, color = Year, data_id = Month_Name), size = 1) +\n  theme_get() +\n  theme(legend.position = \"None\") +\n  labs(title = \"Variability in Sea Ice\",\n       x = \"Month\", \n       caption = \"Interact with Points for Exact Year\")\n\n\nx &lt;- girafe(ggobj = colors)\nif (interactive()) {print(x)}\nx"
+  },
+  {
+    "objectID": "HW2_ggplot.html#gganimate",
+    "href": "HW2_ggplot.html#gganimate",
+    "title": "HW2 ggplot",
+    "section": "gganimate",
+    "text": "gganimate\n\nlibrary(gganimate)\n\np1 &lt;- ggplot(ice, aes(x = Month_Name, y = Extent, group = Year, color = Year))+\n  geom_line() +\n  labs(title = 'Variability in Sea Ice in Year: {frame_time}', x = 'Month', y = 'Extent') +\n  transition_time(Year) +\n  scale_color_gradientn(colors = aab) + \n  theme_gray()\n\nanimate(p1)"
+  },
+  {
+    "objectID": "HW2_ggplot.html#impress-myself",
+    "href": "HW2_ggplot.html#impress-myself",
+    "title": "HW2 ggplot",
+    "section": "Impress Myself",
+    "text": "Impress Myself"
   }
 ]
