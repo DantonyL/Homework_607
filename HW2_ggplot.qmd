@@ -13,6 +13,7 @@ library(readr)
 library(ggplot2)
 library(forcats)
 library(RColorBrewer)
+library(ggthemes)
 pacman::p_load_gh("Mikata-Project/ggthemr")
 
 theme_set(theme_bw(base_size=12))
@@ -121,3 +122,64 @@ animate(p1)
 ```
 
 ## Impress Myself
+```{r}
+impr <- ggplot(ice, aes(x = Extent, y = Month_Name, fill = Month)) + 
+  geom_bar(stat = "identity") +
+  transition_time(Year) +
+  labs(title = 'Variability in Sea Ice in Year: {frame_time}', x = 'Extent', y = 'Month') +
+   shadow_trail(alpha = 0.2, shape = 4, max_frames = 100) +
+  scale_fill_distiller(palette = "Set2") +
+  theme_solarized(light = FALSE) +
+  theme(legend.position="none")
+
+animate(impr)
+```
+
+## TidyTuesday - CDC DataSets
+#### 2025 Week 6 / 2-11-2025
+
+```{r}
+#| message: false
+#| warning: false
+library(readr)
+library(dplyr) 
+library(tidyr)
+
+mal <- read_csv("data/Number_of_Reported_Malaria_Cases_by_County_US_2016.csv")
+
+MATX <- filter(mal, FIPS %in% c("6085","9003", "25025", "48113", "25027", "25017", "48201", "48135"))
+CACT <- filter(mal, COUNTY %in% c("SANTA CLARA", "HARTFORD", "Dallas", "Suffok", "ALAMEDA","SACRAMENTO") & STATE %in% c("CALIFORNIA", "CONNECTICUT", "TEXAS", "MASSACHUSETTS"))
+
+compar <- rbind(MATX, CACT)
+```
+Using Centers for Disease Control and Prevention's (CDC) data set on Malaria Outbreak in 2016 to visualize what State/Region would impact Malaria susceptibility (In States I have lived/wish to). 
+
+```{r}
+compar_mut <- mutate(compar, COUNTY = fct_reorder(COUNTY, MAL_FREQ_2016))
+
+compar_gg <- ggplot(compar_mut, mapping = aes(x=STATE, y=MAL_FREQ_2016, fill = COUNTY, tooltip = COUNTY, data_id = COUNTY)) +
+  geom_bar_interactive(stat = "identity", position = "dodge") +
+      theme_dark() +
+  labs(Title = "Malaria Frequency 2016 with Dantony's Counties of Interest", 
+       x = "State",
+       y = "Malaria Frequency",
+       caption = "Dantony has Lived, Visited, or Interested in these Counties for Residence") +
+  scale_fill_brewer(palette = "RdYlGn", direction = -1) +
+  ggtitle("Malaria Frequency 2016 in Dantony's Areas of Interest") 
+  
+ 
+
+
+compar_int <- girafe(ggobj = compar_gg)
+if (interactive()) {print(compar_int)}
+compar_int
+```
+
+## Meta Questions
+1) Within this week, I have thought about multiple different ways to create visualizations within the same data. This thinking process does not occur often for me but through repetition and using helpful chart selections I am able to continue expanding my knowledge on the effectiveness of data visualization. Within ggplot I was not aware of the extent of customization that is offered through ggplot, r, and other packages even though I knew the basics of ggplot. 
+
+2) My favorite aspect of data visualization is the creative freedom that one has regardless of duplicate data. This allows for a lot of fun aspects to be added within the visualization, truly making a visualizer that is easier to visualize. 
+
+3) It took me roughly 5 hours throughout the week to complete this assignment. I do not believe this was due to how the homework was assigned but due to my curiousity causing me to explore new things that may be too advance for me. 
+
+4) I would give my self a studdicient leaning toward strong assessment on this assignment. This assessment is due to attacking each question to it's fullest even though it may have taken a lot of time to figure out what I would exactly like. I also attemped everything present with full completion.
