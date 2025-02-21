@@ -1,0 +1,400 @@
+---
+title: "HW3 Tidy Data"
+subtitle: "BIOL 607"
+format: html
+---
+
+# Tidy Data 
+
+### 1 - Load
+```{r}
+#| message: false
+
+library(readr)
+
+kelp_nd <- read_csv("https://github.com/kelpecosystems/observational_data/blob/master/cleaned_data/keen_cover.csv?raw=true")
+
+kelp_dwn <- read_csv("data/keen_cover.csv")
+```
+
+## 2 - Format
+##### This data is in long format, due to each variable is only listed once thus causing  more rows of data making it longer. Usually the variables are combine with different    variables such as time which extends the columns thus making it a wide format.\
+
+## 3 - Check it Out !
+### 3a. Amount of Sites per PI
+```{r}
+#| message: false
+library(dplyr)
+library(tidyr)
+kelp_pi <- 
+  kelp_nd |>
+  select(PI, SITE)
+```
+##### Byrnes
+```{r}
+#Code Repeated for other PI's
+kelp_byrnes <-
+  kelp_pi |>
+  filter(PI == "Byrnes") |>
+  distinct(SITE, .keep_all = TRUE)
+n_distinct(kelp_byrnes$SITE)
+```
+##### Dijkstra
+```{r}
+#| echo: false
+
+kelp_dijkstra <- 
+  kelp_pi |>
+  filter(PI == "Dijkstra")
+n_distinct(kelp_dijkstra$SITE)
+```
+
+##### Grabowski
+```{r}
+#| echo: false
+
+kelp_grabowski <- 
+  kelp_pi |>
+  filter(PI == "Grabowski")
+n_distinct(kelp_grabowski$SITE)
+```
+
+##### Humphries
+```{r}
+#| echo: false
+
+kelp_humphries <- 
+  kelp_pi |>
+  filter(PI == "Humphries") |>
+  distinct(SITE, .keep_all = TRUE)
+n_distinct(kelp_humphries$SITE)
+```
+
+##### Pemaquid
+```{r}
+#| echo: false
+
+kelp_pemaquid <- 
+  kelp_pi |>
+  filter(PI == "Pemaquid")
+n_distinct(kelp_pemaquid$SITE)
+```
+
+##### Hurricane
+```{r}
+#| echo: false
+
+kelp_hurricane <- 
+  kelp_pi |>
+  filter(PI == "Hurricane")
+n_distinct(kelp_hurricane$SITE)
+```
+
+### 3b. Years of Data per Site
+```{r}
+#Code Repeated for other Sites
+kelp_site <- 
+  kelp_nd |>
+  select(SITE, YEAR)
+n_distinct(kelp_site$SITE)
+```
+
+##### Baker North
+```{r}
+#| echo: false
+
+kelp_bakern <- 
+  kelp_site |>
+  filter(SITE == "Baker North") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_bakern
+```
+
+##### Baker South
+```{r}
+#| echo: false
+
+kelp_bakers <- 
+  kelp_site |>
+  filter(SITE == "Baker South") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_bakers
+```
+
+##### Calf Island
+```{r}
+#| echo: false
+
+kelp_calf_island <- 
+  kelp_site |>
+  filter(SITE == "Calf Island") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_calf_island
+```
+
+##### Little Brewster
+```{r}
+#| echo: false
+
+kelp_little_brew <- 
+  kelp_site |>
+  filter(SITE == "Little Brewster") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_little_brew
+```
+
+##### NE Appledore
+```{r}
+#| echo: false
+
+kelp_ne_appledore <- 
+  kelp_site |>
+  filter(SITE == "NE Appledore") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_ne_appledore
+```
+
+##### NW Appledore
+```{r}
+#| echo: false
+
+kelp_nw_appledore <- 
+  kelp_site |>
+  filter(SITE == "NW Appledore") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_nw_appledore
+```
+
+##### SW Appledore
+```{r}
+#| echo: false
+
+kelp_sw_appledore <- 
+  kelp_site |>
+  filter(SITE == "SW Appledore") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_sw_appledore
+```
+
+##### Nubble Lighthouse
+```{r}
+#| echo: false
+
+kelp_nubble_lh <- 
+  kelp_site |>
+  filter(SITE == "Nubble Lighthouse") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_nubble_lh
+```
+
+##### Nahant
+```{r}
+#| echo: false
+
+kelp_nahant <- 
+  kelp_site |>
+  filter(SITE == "Nahant") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_nahant
+```
+
+##### Fort Weatherill
+```{r}
+#| echo: false
+
+kelp_ft_weatherill <- 
+  kelp_site |>
+  filter(SITE == "Fort Weatherill") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_ft_weatherill
+```
+
+##### King's Beach
+```{r}
+#| echo: false
+
+kelp_kings_beach <- 
+  kelp_site |>
+  filter(SITE == "King's Beach") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_kings_beach
+```
+
+##### Hurricane Island
+```{r}
+#| echo: false
+
+kelp_hurricane_island <- 
+  kelp_site |>
+  filter(SITE == "Hurricane Island") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_hurricane_island
+```
+
+##### Permaquid
+```{r}
+#| echo: false
+#|message: false
+kelp_pemaquid_yr <- 
+  kelp_site |>
+  filter(SITE == "Pemaquid") |>
+  arrange(desc(YEAR)) |>
+  distinct(YEAR, .keep_all = TRUE)
+kelp_pemaquid_yr
+```
+
+### 3c. Impress Yourself / Figure
+```{r}
+library(ggplot2)
+site_year <- 
+  kelp_site |>
+  ggplot(mapping = aes(x = YEAR, y = SITE, fill = SITE)) +
+  geom_tile() +
+  labs(title = "Years Site in Use",
+       y = "Site",
+       x = "Year") +
+  theme_linedraw() +
+  theme(legend.position = "None") +
+  scale_x_continuous(breaks=seq(2014,2022,by=1))
+
+site_year
+```
+
+## 4 Kelp
+### 4a. 
+```{r}
+kelp_trim <- 
+  kelp_nd |>
+  select(YEAR, SITE, TRANSECT, PERCENT_COVER, FAMILY, SPECIES)
+kelp_trim
+```
+
+### 4b. 
+```{r}
+kelp_trimer <- 
+  kelp_trim |>
+  filter(FAMILY == "Laminariaceae") |>
+  select(!FAMILY)
+kelp_trimer
+```
+
+### 4c. 
+##### No there are two measurements per species transect each year.
+
+### 4d.
+```{r}
+#|message: false
+#|warning: false
+
+kelp_cover <- 
+kelp_trimer |>
+  group_by(TRANSECT,SITE,YEAR) |>
+  summarize(sum_cover = sum(as.numeric(PERCENT_COVER)))
+kelp_cover
+```
+### 4e.
+```{r}
+#|message: false
+#|warning: false
+
+kelp_plot <- 
+  kelp_trimer|>
+  ggplot(mapping = aes(x = YEAR, y = PERCENT_COVER, color = SITE)) +
+  facet_wrap(~SPECIES) +
+  stat_summary(geom = "line") +
+  theme_dark() +
+  scale_color_manual(values = c("firebrick4","Orange", "Yellow", "seagreen", "Navy", "Purple", "White", "plum1", "skyblue", "yellowgreen", "lightcoral", "deeppink3","burlywood", "aquamarine2")) +
+  labs(title = "Timeseries of Kelp by Site",
+       y = "Percent Cover",
+       x = "Year") 
+kelp_plot
+```
+##### I noticed that the *Laminaria digitata* species has a lower percent cover as well as less data collected, compared to *Saccharina latissima* where the percent cover range is larger and more data available.
+
+## 5 Wide Relationships
+### 5a. 
+```{r}
+#|message: false
+#|warning: false
+
+kelp_wide_prep <- 
+  kelp_trimer |>
+  group_by(TRANSECT,SITE,YEAR, SPECIES) |>
+  summarize(sum_cover = sum(PERCENT_COVER, na.rm = TRUE))
+
+kelp_wide <- 
+  kelp_wide_prep |>
+  group_by(SPECIES, sum_cover) |>
+  pivot_wider(names_from = SPECIES,
+              values_from = sum_cover)
+kelp_wide[is.na(kelp_wide)] = 0
+kelp_wide
+```
+### 5c. 
+```{r}
+library(ggtext)
+library(ggthemes)
+
+sp_compar <- 
+  kelp_wide |>
+  ggplot() +
+  geom_smooth(aes(x = YEAR, y = `Saccharina latissima`, color = "skyblue", method = "lm")) +
+  geom_smooth(aes(x = YEAR, y = `Laminaria digitata`, color = "lightpink", method = "lm")) +
+  labs(title = "Percent Cover Relationship between Species",
+       subtitle = "<span style = 'color: skyblue;'>Blue</span> = Saccharina latissima    <span style = 'color: pink;'>Pink</span> = Laminaria digitata",
+       x = "Year",
+       y = "Percent Cover") +
+  theme_stata() +
+  theme(plot.subtitle = element_markdown(),
+        legend.position = "None")
+sp_compar
+```
+
+### 5d. 
+```{r}
+#|message: false
+#|warning: false
+
+kelp_wide_prep[is.na(kelp_wide_prep)] = 0
+
+long_graph <- 
+  kelp_wide_prep|>
+  ggplot(mapping = aes(x = YEAR, y = sum_cover, color = SITE)) +
+  facet_wrap(~SPECIES) +
+  stat_summary(geom = "line") +
+  theme_dark() +
+  scale_color_manual(values = c("firebrick4","Orange", "Yellow", "seagreen", "Navy", "Purple", "White", "plum1", "skyblue", "yellowgreen", "lightcoral", "deeppink3","burlywood", "aquamarine2")) +
+  labs(title = "Timeseries of Kelp by Site") 
+long_graph
+```
+##### I noticed in this there are slight changes to the lines present, especially within the *Saccharina latissima* species that seems to reach a high sum cover with the NA at zero. The zeros do not completely change the story but it does have an affect on the way we anaylize it. 
+
+## Meta Questions
+
+### 1)
+##### Working with data found in the wild is sonmething that I have done in the past but within the lectures I was able to gain a better understanding on manipulating data. When I first examined the data, I noticed the sheer amount of data present was daunting but as you break it down it become a lot more comprehensible.
+
+### 2)
+##### As stated before this is something that I have done previous but wihtin week 3 I learned a lot more detail and now feel like I have an understanding of data manipulation just need more practice.
+
+### 3)
+##### In the past I have always created and work with long form datasets and this was truly my first introduction to wide datasets. From the Browman and Woo paper I learned a lot more about proper data organization such as using good names, one value in cell with no empty, backups, etc.
+
+### 4)
+##### This assignment took a little longer than expected, taking about 3 hours. This may due to issues I had with plotting as well as the repition.
+
+### 5)
+I would give myself a sufficient on this assignment, as I did not go beyond on most of the questions as well I struggled at times. 
+ 
