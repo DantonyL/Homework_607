@@ -295,8 +295,8 @@ kelp_trimer
 
 ### 4d.
 ```{r}
-#|message: false
-#|warning: false
+#| message: false
+#| warning: false
 
 kelp_cover <- 
 kelp_trimer |>
@@ -306,8 +306,8 @@ kelp_cover
 ```
 ### 4e.
 ```{r}
-#|message: false
-#|warning: false
+#| message: false
+#| warning: false
 
 kelp_plot <- 
   kelp_trimer|>
@@ -326,8 +326,8 @@ kelp_plot
 ## 5 Wide Relationships
 ### 5a. 
 ```{r}
-#|message: false
-#|warning: false
+#| message: false
+#| warning: false
 
 kelp_wide_prep <- 
   kelp_trimer |>
@@ -344,6 +344,9 @@ kelp_wide
 ```
 ### 5c. 
 ```{r}
+#| message: false
+#| warning: false
+#| 
 library(ggtext)
 library(ggthemes)
 
@@ -364,8 +367,8 @@ sp_compar
 
 ### 5d. 
 ```{r}
-#|message: false
-#|warning: false
+#| message: false
+#| warning: false
 
 kelp_wide_prep[is.na(kelp_wide_prep)] = 0
 
