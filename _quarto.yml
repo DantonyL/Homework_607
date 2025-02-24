@@ -19,7 +19,7 @@ website:
       - href: HW1_Intro_to_R.qmd
         text: "HW1 Intro to R"
       - href: HW2_ggplot.qmd
-        text: "HW2 gglot"
+        text: "HW2 ggplot"
       - href: HW3_Tidy_Data.qmd
         text: "HW3 Tidy Data"
       
