@@ -1,0 +1,175 @@
+---
+title: "HW4 Sampling"
+subtitle: "BIOL 607"
+format: html
+---
+
+# Sampling
+
+### 0. Intro 
+```{r}
+#| message: FALSE
+#| warning: false
+
+library(tidyverse)
+library(ggthemr)
+```
+
+
+### 1. Visualizing the Exponential distribution
+
+##### 1a.
+```{r}
+tibz <- crossing(x = seq(0, 4, length.out = 200),
+                 rate = c(0.2, 0.5, 1, 2, 4))
+```
+
+##### 1b.
+```{r}
+dens_tibz <- tibz |>
+  mutate(density = dexp(x, rate = rate))
+
+```
+
+##### 1c. 
+```{r}
+#| warning: false
+
+ggthemr("flat dark")
+dens_plot <- 
+  ggplot(dens_tibz, aes(x = x, y = density, color = factor(rate))) +
+  geom_line(linewidth = 0.8) +
+  labs(title = "Density of Exponential Changes",
+    x = "x",
+    y = "Density",
+    color = "Rate")
+dens_plot
+```
+
+
+### 2. Precision and Sampling the Exponential
+
+##### 2a.
+```{r}
+ps_setup <- expand.grid(sims = 1:1000, rate = c(0.2, 0.5, 1, 2, 4)) |>
+  as_tibble()
+```
+
+##### 2b.
+```{r}
+set.seed(0603)
+
+sample_tibz <- ps_setup |>
+  group_by(sims, rate) |>
+  reframe(sample = rnorm(10)) |>
+  unnest(sample)
+sample_tibz
+```
+
+##### 2c.
+```{r}
+summary_tibz <- sample_tibz |>
+  group_by(sims, rate) |>
+  summarise(
+    mean = mean(sample),
+    median = median(sample),
+    sd = sd(sample),
+    .groups = "drop")
+summary_tibz
+```
+
+##### 2d.
+```{r}
+library(knitr)
+
+se_table <- summary_tibz |>
+  group_by(rate) |>
+  summarize(
+    "SE mean" = sd(mean) / sqrt(1000),
+    "SE median" = sd(median) / sqrt(1000),
+    "SE Standard Deviation" = sd(sd) / sqrt(1000),
+    .groups = "drop")
+
+kable(se_table, digits = 4, caption = "Standard Errors of Mean, Median, and SD by Rate", align = "lccc")
+
+
+ggthemr("flat")
+
+plot_data <- summary_tibz |>
+  pivot_longer(cols = c(mean, median, sd), names_to = "stats", values_to = "value")
+
+stat_plot <- ggplot(plot_data, aes(x = rate, y = value, color = stats)) +
+  geom_point(alpha = 0.3) +
+  facet_wrap(~stats) +
+  labs(
+    title = "Effect of Rate on Sample Statistics",
+    x = "Rate",
+    y = "Value"
+  )
+stat_plot
+```
+
+##### 2e.
+###### These results do not suprise me as the first density plot suggest that for higher rates the statisitics(mean, standard deviation, and mean) should have less variation amoung simulations, thus making sense that the common statistics have lower standard errors at higher rates. 
+
+
+### 3. Tidy Tuesday 2025-03-04
+```{r}
+#| warning: false
+#| message: false
+
+library(readr)
+longbeach <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-03-04/longbeach.csv')
+library(gganimate)
+ggthemr("fresh")
+
+adopt_plot <- longbeach |>
+  mutate(year = as.numeric(format(intake_date, "%Y"))) |>
+  filter(outcome_type == "adoption") |>
+  ggplot(mapping = aes(x = animal_type, fill = animal_type)) +
+  labs(title = "Animals Adopted in the Year: {frame_time}",
+       x = "Animal Type",
+       y = "Amount Adopted") +
+  geom_bar() +
+  scale_y_continuous(limits = c(0, 750)) +
+  transition_time(year) 
+animate(adopt_plot)
+ggthemr_reset()
+```
+####### In this graph you can see the amount of animal types adopted per year, things I noticed is that cats and dogs are the most adopted out of the bunch as well as during the year 2020 all animal adotion was at its lowest.
+
+```{r}
+reptile <- longbeach |>
+  filter(animal_type == "reptile") |>
+  ggplot(mapping = aes(x = outcome_type, fill = outcome_type)) +
+  geom_bar() +
+  theme_grey() +
+  facet_wrap(~intake_type) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  labs(title = "Reptiles Intake and Output Relationship",
+       y = "Count",
+       fill = "Outcome Type")
+reptile
+```
+###### This plot focuses on reptiles, specifically the relationship between the intake type to the output type. We see that the only time reptiles are returned to the wild are if they captured as a stray or wildlife. Only time we see a high number of adoptions is when they are intaked as a stray, as well as some confiscate and wildlife. 
+
+###### Link to GitHub [Gist](https://gist.github.com/DantonyL/1ebd60fccce995b817f7028b212f70f4){.external target="_blank"}
+
+
+
+## Meta Questions
+
+#### 1) What we learned this week is material I have seen in the past, but may have forgotten so this was a good refresher on topics such as sample distributions and simulations. 
+
+#### 2) There are many things in life that can be "simulated", some of these examples where this can be beneficial is when there is luck or chance involved so we can can speculate the results.
+
+#### 3) At first glance, the assignment seemed daunting but throughout the week the material we learned would benefit me in completing it making it seem not as difficult as once portrayed. 
+
+#### 4) I wouldn't say I am struggling with any of the re-appearing topics as they have become a part of my workflow in r, only thing I may struggle on is remembering the code needed. 
+
+#### 5) This assignment took me about 2-3 hours to complete
+
+#### 6) I would give my self a strong assessment on the assignment due to the way a complete the tasks as well as challenged myself fully with animation and a gist in GitHub. 
+
