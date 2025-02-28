@@ -23,6 +23,6 @@ website:
       - href: HW3_Tidy_Data.qmd
         text: "HW3 Tidy Data"
       - href: HW4_Sampling.qmd
-      - text: "HW4 Sampling & Simulation"
+      - text: "HW4 Sampling"
       
   
