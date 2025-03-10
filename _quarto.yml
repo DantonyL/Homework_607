@@ -24,5 +24,7 @@ website:
         text: "HW3 Tidy Data"
       - href: HW4_Sampling.qmd
       - text: "HW4 Sampling"
+      - href: HW5_Linear_Regression.qmd
+      - text: "HW5 Linear Regression"
       
   

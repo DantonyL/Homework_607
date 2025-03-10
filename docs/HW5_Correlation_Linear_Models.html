@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>HW5 Correlation &amp; Linear Models – BIOL 607/617 Assignments</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">BIOL 607/617 Assignments</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./HW1_Intro_to_R.html"> 
+<span class="menu-text">HW1 Intro to R</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./HW2_ggplot.html"> 
+<span class="menu-text">HW2 ggplot</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./HW3_Tidy_Data.html"> 
+<span class="menu-text">HW3 Tidy Data</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./HW4_Sampling.html"> 
+<span class="menu-text">HW4 Sampling</span></a>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">HW4 Sampling</span>
+    </span>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="./HW5_Correlation_Linear_Models"> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">HW5 Correlation &amp; Linear Models</span>
+    </span>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/DantonyL" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">HW5 Correlation &amp; Linear Models</h1>
+<p class="subtitle lead">BIOL 607</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="correlation" class="level2">
+<h2 class="anchored" data-anchor-id="correlation">1) Correlation</h2>
+<section id="a.-displaying-correlation" class="level4">
+<h4 class="anchored" data-anchor-id="a.-displaying-correlation">a. Displaying Correlation</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>greym_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/chap16q15LanguageGreyMatter.csv"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>greym_scatter <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> greym_data,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">aes</span>(<span class="at">x =</span> greymatter,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> proficiency)) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Assocation between Second Language Proficiency &amp; Grey-Matter Density"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Second Language Proficiency"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Grey-Matter Density"</span>) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>greym_scatter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HW5_Correlation_Linear_Models_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="b.-calculating-correlation" class="level4">
+<h4 class="anchored" data-anchor-id="b.-calculating-correlation">b. Calculating Correlation</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>greym_data <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggpairs</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HW5_Correlation_Linear_Models_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="correlation-between-second-language-proficiency-and-grey-mater-density-0.818" class="level5">
+<h5 class="anchored" data-anchor-id="correlation-between-second-language-proficiency-and-grey-mater-density-0.818">Correlation between Second Language Proficiency and Grey-Mater Density = 0.818</h5>
+</section>
+</section>
+<section id="cd.-assumptions" class="level4">
+<h4 class="anchored" data-anchor-id="cd.-assumptions">c/d.&nbsp;Assumptions</h4>
+</section>
+<section id="linearity" class="level4">
+<h4 class="anchored" data-anchor-id="linearity">Linearity</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>greym_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(proficiency <span class="sc">~</span> greymatter, <span class="at">data =</span> greym_data)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(greym_lm, <span class="at">check =</span> <span class="st">"ncv"</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HW5_Correlation_Linear_Models_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="in-this-graph-we-see-this-assumption-is-slightly-off-then-what-we-were-expecting-but-nothing-alarming" class="level6">
+<h6 class="anchored" data-anchor-id="in-this-graph-we-see-this-assumption-is-slightly-off-then-what-we-were-expecting-but-nothing-alarming">In this graph we see this assumption is slightly off then what we were expecting but nothing alarming</h6>
+</section>
+</section>
+<section id="gaussian-model" class="level4">
+<h4 class="anchored" data-anchor-id="gaussian-model">Gaussian Model</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_normality</span>(greym_lm) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">detrend =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HW5_Correlation_Linear_Models_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="in-this-assumption-we-see-that-the-majority-of-dots-fall-along-the-line-with-some-concern-for-the-outliers-in-the-beginning" class="level6">
+<h6 class="anchored" data-anchor-id="in-this-assumption-we-see-that-the-majority-of-dots-fall-along-the-line-with-some-concern-for-the-outliers-in-the-beginning">In this assumption we see that the majority of dots fall along the line with some concern for the outliers in the beginning</h6>
+</section>
+</section>
+<section id="variance-is-homogeneous" class="level4">
+<h4 class="anchored" data-anchor-id="variance-is-homogeneous">Variance is Homogeneous</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_heteroscedasticity</span>(greym_lm) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HW5_Correlation_Linear_Models_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="when-visualizing-this-assumption-we-shoudl-see-a-straight-line-in-this-case-we-see-it-starts-to-begin-straight-then-begins-to-go-awry" class="level6">
+<h6 class="anchored" data-anchor-id="when-visualizing-this-assumption-we-shoudl-see-a-straight-line-in-this-case-we-see-it-starts-to-begin-straight-then-begins-to-go-awry">When visualizing this assumption we shoudl see a straight line, in this case we see it starts to begin straight then begins to go awry</h6>
+</section>
+</section>
+<section id="outliers" class="level4">
+<h4 class="anchored" data-anchor-id="outliers">Outliers</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_outliers</span>(greym_lm) <span class="sc">|&gt;</span> <span class="fu">plot</span>(<span class="at">type =</span> <span class="st">"bar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HW5_Correlation_Linear_Models_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="this-displays-the-outliers-seen-throughout-the-observations-we-see-that-there-is-a-lot-of-outliers-in-the-first-few-outliers-that-may-have-impacted-the-other-assumptions" class="level6">
+<h6 class="anchored" data-anchor-id="this-displays-the-outliers-seen-throughout-the-observations-we-see-that-there-is-a-lot-of-outliers-in-the-first-few-outliers-that-may-have-impacted-the-other-assumptions">This displays the outliers seen throughout the observations, we see that there is a lot of outliers in the first few outliers that may have impacted the other assumptions</h6>
+</section>
+</section>
+<section id="f.-analyzing" class="level4">
+<h4 class="anchored" data-anchor-id="f.-analyzing">f.&nbsp;Analyzing</h4>
+<section id="after-viewing-the-results-they-do-not-completely-demonstrate-that-second-language-proficiency-affects-grey-matter-density.-we-can-see-this-within-our-plots-of-assumptions-where-they-dont-allign-with-the-non-random-pattern.-this-could-be-due-to-the-small-sampling-n-or-the-involvment-of-other-possible-variables-could-influence-both-variables." class="level7">
+<p class="heading">After viewing the results, they do not completely demonstrate that second language proficiency affects grey-matter density. We can see this within our plots of assumptions where they don’t allign with the non-random pattern. This could be due to the small sampling (n) or the involvment of other possible variables could influence both variables.</p>
+</section>
+</section>
+</section>
+<section id="fiebergs-lizardbite" class="level2">
+<h2 class="anchored" data-anchor-id="fiebergs-lizardbite">2) Fieberg’s LizardBite</h2>
+<section id="a.-fit-linear-model" class="level4">
+<h4 class="anchored" data-anchor-id="a.-fit-linear-model">a. Fit Linear Model</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(abd)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visreg)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(LizardBite)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>lizardbite_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(territory <span class="sc">~</span> bite, <span class="at">data =</span> LizardBite)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">visreg</span>(lizardbite_mod, <span class="at">gg =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HW5_Correlation_Linear_Models_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="b.-assumptions" class="level4">
+<h4 class="anchored" data-anchor-id="b.-assumptions">b. Assumptions</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(lizardbite_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HW5_Correlation_Linear_Models_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Assumptions
+<ul>
+<li>Posterior Predictive Check
+<ul>
+<li>We are looking at density of each model-predicted data against the observed data</li>
+<li>Expectation: The observed data is in line with a large majority of the model-predicted lines</li>
+</ul></li>
+<li>Linearity
+<ul>
+<li>We are looking at if the terms of the model add up</li>
+<li>Expectation: The reference line should be semi-flat along the dotted black line at 0</li>
+</ul></li>
+<li>Homogeneity of Variance
+<ul>
+<li>Here we are looking at the fitted values against the square root of the std residuals, testing the variance</li>
+<li>Expectation: The line should be semi-flat, but more importantly we should be focused on the symmetry of points accross the reference line</li>
+</ul></li>
+<li>Influence Observations
+<ul>
+<li>We are observing the outliers within the model data</li>
+<li>Expectation: All points should be seen within the outside lines</li>
+</ul></li>
+<li>Normality of Residuals
+<ul>
+<li>Testing to see if the residuals are normal in our model, by using a Q-Q plot</li>
+<li>Expectation: dots should fall along the line with little variation</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="c.-intercept-and-slope" class="level4">
+<h4 class="anchored" data-anchor-id="c.-intercept-and-slope">c.&nbsp;Intercept and Slope</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lizardbite_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)    -31.5     23.5      -1.34  0.213 
+2 bite            11.7      4.85      2.41  0.0393</code></pre>
+</div>
+</div>
+<section id="intercept--31.53929" class="level6">
+<h6 class="anchored" data-anchor-id="intercept--31.53929">Intercept = -31.53929</h6>
+</section>
+<section id="slope-11.67730" class="level6">
+<h6 class="anchored" data-anchor-id="slope-11.67730">Slope = 11.67730</h6>
+</section>
+</section>
+<section id="d.-confidence-interval-for-intercept-and-slope" class="level4">
+<h4 class="anchored" data-anchor-id="d.-confidence-interval-for-intercept-and-slope">d.&nbsp;Confidence Interval for Intercept and Slope</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lizardbite_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 2.5 %   97.5 %
+(Intercept) -84.728586 21.65001
+bite          0.709847 22.64474</code></pre>
+</div>
+</div>
+</section>
+<section id="e.-standard-error-of-slope" class="level4">
+<h4 class="anchored" data-anchor-id="e.-standard-error-of-slope">e. Standard Error of Slope</h4>
+<section id="the-standard-error-of-the-slope-parameter-means-the-variability-in-the-slope-accross-different-possible-samples.-this-standard-error-of-the-slope-gives-us-an-idea-how-the-sampling-distribution-looks-like-which-is-the-possible-slope-values-we-would-get-if-we-sampled-the-population-again." class="level6">
+<h6 class="anchored" data-anchor-id="the-standard-error-of-the-slope-parameter-means-the-variability-in-the-slope-accross-different-possible-samples.-this-standard-error-of-the-slope-gives-us-an-idea-how-the-sampling-distribution-looks-like-which-is-the-possible-slope-values-we-would-get-if-we-sampled-the-population-again.">The standard error of the slope parameter means the variability in the slope accross different possible samples. This standard error of the slope gives us an idea how the sampling distribution looks like, which is the possible slope values we would get if we sampled the population again.</h6>
+</section>
+</section>
+<section id="f.-confidence-interval-for-mean" class="level4">
+<h4 class="anchored" data-anchor-id="f.-confidence-interval-for-mean">f.&nbsp;Confidence Interval for Mean</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>bite5 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">bite =</span> <span class="dv">5</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(lizardbite_mod, bite5, <span class="at">interval =</span> <span class="st">"confidence"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       fit      lwr      upr
+1 26.84719 22.51035 31.18403</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(lizardbite_mod, bite5, <span class="at">interval =</span> <span class="st">"prediction"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       fit      lwr      upr
+1 26.84719 13.05339 40.64099</code></pre>
+</div>
+</div>
+<section id="the-confidence-interval-gives-a-range-for-the-mean-territory-size-for-lizards-that-have-a-bite-force-of-5." class="level6">
+<h6 class="anchored" data-anchor-id="the-confidence-interval-gives-a-range-for-the-mean-territory-size-for-lizards-that-have-a-bite-force-of-5.">The Confidence Interval gives a range for the mean territory size for lizards that have a bite force of 5.</h6>
+</section>
+<section id="the-prediction-interval-gives-a-range-for-territory-size-for-individual-lizards-with-a-bite-force-of-5-thus-having-a-wider-range." class="level6">
+<h6 class="anchored" data-anchor-id="the-prediction-interval-gives-a-range-for-territory-size-for-individual-lizards-with-a-bite-force-of-5-thus-having-a-wider-range.">The Prediction Interval gives a range for territory size for individual lizards with a bite force of 5, thus having a wider range.</h6>
+</section>
+<section id="to-predict-a-territory-size-for-a-specific-lizard-use-prediction-interval-for-estimating-average-territory-for-all-lizards-with-a-bite-force-5-use-confidence-interval." class="level6">
+<h6 class="anchored" data-anchor-id="to-predict-a-territory-size-for-a-specific-lizard-use-prediction-interval-for-estimating-average-territory-for-all-lizards-with-a-bite-force-5-use-confidence-interval.">To predict a territory size for a specific lizard use Prediction Interval, for estimating average territory for all lizards with a bite force 5 use Confidence Interval.</h6>
+</section>
+</section>
+</section>
+<section id="latex" class="level2">
+<h2 class="anchored" data-anchor-id="latex">3) LaTeX</h2>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_0X_i + \epsilon_i
+\]</span> <span class="math display">\[
+\epsilon_i \sim \mathcal{N}(0,\sigma)
+\]</span></p>
+</section>
+<section id="whitlock-shluter-ch.-17-30" class="level2">
+<h2 class="anchored" data-anchor-id="whitlock-shluter-ch.-17-30">4) Whitlock &amp; Shluter CH. 17-30</h2>
+<section id="a." class="level4">
+<h4 class="anchored" data-anchor-id="a.">a.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>NucTeeth_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/chap17q30NuclearTeeth.csv"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>NucTeeth_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(deltaC14 <span class="sc">~</span> dateOfBirth, NucTeeth_data)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(NucTeeth_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic      p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+1 (Intercept)  33318.    3108.        10.7 0.0000000393
+2 dateOfBirth    -16.7      1.57     -10.6 0.0000000430</code></pre>
+</div>
+</div>
+<section id="estimated-slope-of-regression-line--16.71066" class="level6">
+<h6 class="anchored" data-anchor-id="estimated-slope-of-regression-line--16.71066">Estimated Slope of Regression Line = -16.71066</h6>
+</section>
+</section>
+<section id="b." class="level4">
+<h4 class="anchored" data-anchor-id="b.">b.</h4>
+<section id="i-cant-see-the-image-clearly-but-the-confidence-bands-indicate-the-95-confidence-interval-showing-the-range-for-average-birth-year-for-a-specific-14c-measurement." class="level6">
+<h6 class="anchored" data-anchor-id="i-cant-see-the-image-clearly-but-the-confidence-bands-indicate-the-95-confidence-interval-showing-the-range-for-average-birth-year-for-a-specific-14c-measurement.">I can’t see the image clearly, but the confidence bands indicate the 95% confidence interval showing the range for average birth year for a specific <sup>14</sup>C measurement.</h6>
+</section>
+</section>
+<section id="c." class="level4">
+<h4 class="anchored" data-anchor-id="c.">c.</h4>
+<section id="i-still-cant-view-the-graph-but-the-prediction-interval-gives-a-range-of-expected-year-of-birth-for-an-individual-with-a-specific-14c-measurement.-the-prediction-intervals-range-is-wider-that-confidence-bands-because-they-account-for-individual-variablility." class="level6">
+<h6 class="anchored" data-anchor-id="i-still-cant-view-the-graph-but-the-prediction-interval-gives-a-range-of-expected-year-of-birth-for-an-individual-with-a-specific-14c-measurement.-the-prediction-intervals-range-is-wider-that-confidence-bands-because-they-account-for-individual-variablility.">I still can’t view the graph, but the prediction interval gives a range of expected year of birth for an individual with a specific <sup>14</sup>C measurement. The prediction intervals’ range is wider that confidence bands because they account for individual variablility.</h6>
+</section>
+</section>
+<section id="d." class="level4">
+<h4 class="anchored" data-anchor-id="d.">d.&nbsp;</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>NucTeeth_predict <span class="ot">&lt;-</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>(NucTeeth_mod,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">interval =</span> <span class="st">"prediction"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">newdata =</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">dateOfBirth =</span> <span class="fu">seq</span>(<span class="dv">1960</span>, <span class="dv">1995</span>, <span class="at">length.out =</span> <span class="dv">5</span>)))</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>NucTeeth_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> NucTeeth_data, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> dateOfBirth, <span class="at">y =</span> deltaC14)) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">fill =</span> <span class="st">"Orange"</span>) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> NucTeeth_predict,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> .fitted),</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> NucTeeth_predict,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">y =</span> .fitted, </span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ymax =</span> .upper,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ymin =</span> .lower), </span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.2</span>,</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill =</span> <span class="st">"Blue"</span>) <span class="sc">+</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">1960</span>,<span class="dv">1993</span>) <span class="sc">+</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date of Birth"</span>,</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Delta C14"</span>)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>NucTeeth_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HW5_Correlation_Linear_Models_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="impressing-myself-intervals-and-simulation" class="level2">
+<h2 class="anchored" data-anchor-id="impressing-myself-intervals-and-simulation">Impressing Myself // Intervals and Simulation</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mnormt)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>deet <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/17q24DEETMosquiteBites copy.csv"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>deet_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(bites <span class="sc">~</span> dose, deet)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">vcov</span>(deet_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            (Intercept)         dose
+(Intercept)  0.09929780 -0.025986850
+dose        -0.02598685  0.007437073</code></pre>
+</div>
+</div>
+<section id="iya.-fit-simulations" class="level4">
+<h4 class="anchored" data-anchor-id="iya.-fit-simulations">IYa. Fit Simulations</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>coef_mean <span class="ot">&lt;-</span> <span class="fu">coef</span>(deet_mod)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>coef_vcov <span class="ot">&lt;-</span> <span class="fu">vcov</span>(deet_mod)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>simulated_coefs <span class="ot">&lt;-</span> <span class="fu">rmnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> coef_mean, <span class="at">varcov =</span> coef_vcov)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>simulated_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">intercept =</span> simulated_coefs[,<span class="dv">1</span>], <span class="at">slope =</span> simulated_coefs[,<span class="dv">2</span>])</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>simulated_df<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="st">"Simulated Fits"</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(deet, <span class="fu">aes</span>(<span class="at">x =</span> dose, <span class="at">y =</span> bites)) <span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">data =</span> simulated_df, <span class="fu">aes</span>(<span class="at">intercept =</span> intercept, <span class="at">slope =</span> slope, <span class="at">color =</span> group), </span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="fu">aes</span>(<span class="at">color =</span> <span class="st">"Fitted Model"</span>), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Model Type"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Fitted Model"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"Simulated Fits"</span> <span class="ot">=</span> <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Simulated Fits vs. Fitted Model"</span>, <span class="at">x =</span> <span class="st">"Dose"</span>, <span class="at">y =</span> <span class="st">"Bites"</span>) <span class="sc">+</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HW5_Correlation_Linear_Models_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="iyb.-prediction-simulations" class="level4">
+<h4 class="anchored" data-anchor-id="iyb.-prediction-simulations">IYb. Prediction Simulations</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>simulated_df<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="st">"Simulated Fits"</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dose =</span> <span class="fu">seq</span>(<span class="fu">min</span>(deet<span class="sc">$</span>dose), <span class="fu">max</span>(deet<span class="sc">$</span>dose), <span class="at">length.out =</span> <span class="dv">100</span>))</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(deet_mod, <span class="at">newdata =</span> new_data, <span class="at">interval =</span> <span class="st">"prediction"</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>pred_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dose =</span> new_data<span class="sc">$</span>dose,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">fit =</span> predictions[, <span class="st">"fit"</span>],</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">lwr =</span> predictions[, <span class="st">"lwr"</span>],</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">upr =</span> predictions[, <span class="st">"upr"</span>])</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(deet, <span class="fu">aes</span>(<span class="at">x =</span> dose, <span class="at">y =</span> bites)) <span class="sc">+</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">data =</span> simulated_df, <span class="fu">aes</span>(<span class="at">intercept =</span> intercept, <span class="at">slope =</span> slope, <span class="at">color =</span> group), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span>  </span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_df, <span class="fu">aes</span>(<span class="at">x =</span> dose, <span class="at">y =</span> lwr, <span class="at">color =</span> <span class="st">"Prediction Interval"</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span>  </span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_df, <span class="fu">aes</span>(<span class="at">x =</span> dose, <span class="at">y =</span> upr, <span class="at">color =</span> <span class="st">"Prediction Interval"</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span> </span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="fu">aes</span>(<span class="at">color =</span> <span class="st">"Fitted Model"</span>), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Model Type"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Fitted Model"</span> <span class="ot">=</span> <span class="st">"blue"</span>, </span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>                                                     <span class="st">"Simulated Fits"</span> <span class="ot">=</span> <span class="st">"red"</span>, </span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>                                                     <span class="st">"Prediction Interval"</span> <span class="ot">=</span> <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Simulated Prediction Intervals vs. Calculated Intervals"</span>, </span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Dose"</span>, </span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Bites"</span>) <span class="sc">+</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="HW5_Correlation_Linear_Models_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="meta-questions" class="level2">
+<h2 class="anchored" data-anchor-id="meta-questions">Meta Questions</h2>
+<section id="i-feel-pretty-confident-within-the-assumption-testing-just-need-to-figure-out-where-i-should-draw-the-line-on-differences-within-the-assumption-testing." class="level6">
+<h6 class="anchored" data-anchor-id="i-feel-pretty-confident-within-the-assumption-testing-just-need-to-figure-out-where-i-should-draw-the-line-on-differences-within-the-assumption-testing.">1) I feel pretty confident within the assumption testing, just need to figure out where I should draw the line on differences within the assumption testing.</h6>
+</section>
+<section id="i-feel-i-am-getting-a-good-understanding-of-confidence-intervals-and-prediction-intervals-including-their-differences.-one-thing-i-am-struggling-on-is-determining-association-of-variables-due-to-the-many-factors" class="level6">
+<h6 class="anchored" data-anchor-id="i-feel-i-am-getting-a-good-understanding-of-confidence-intervals-and-prediction-intervals-including-their-differences.-one-thing-i-am-struggling-on-is-determining-association-of-variables-due-to-the-many-factors">2) I feel I am getting a good understanding of confidence intervals and prediction intervals including their differences. One thing I am struggling on is determining association of variables due to the many factors</h6>
+</section>
+<section id="yes-i-see-how-a-simulation-can-be-used-with-a-fit-model-in-order-to-test-the-validity-of-the-model-and-if-you-can-use-it-to-predict-an-outcome-of-a-specific-measurement." class="level6">
+<h6 class="anchored" data-anchor-id="yes-i-see-how-a-simulation-can-be-used-with-a-fit-model-in-order-to-test-the-validity-of-the-model-and-if-you-can-use-it-to-predict-an-outcome-of-a-specific-measurement.">3) Yes I see how a simulation can be used with a fit model in order to test the validity of the model and if you can use it to predict an outcome of a specific measurement.</h6>
+</section>
+<section id="this-one-took-me-a-lil-longer-then-expected-due-to-illness-and-catching-up-on-reading.-i-believe-it-took-me-3.5-hours-to-complete-due-to-the-concepts-and-making-sure-i-can-explain-it-properly." class="level6">
+<h6 class="anchored" data-anchor-id="this-one-took-me-a-lil-longer-then-expected-due-to-illness-and-catching-up-on-reading.-i-believe-it-took-me-3.5-hours-to-complete-due-to-the-concepts-and-making-sure-i-can-explain-it-properly.">4) This one took me a lil longer then expected due to illness and catching up on reading. I believe it took me 3.5 hours to complete, due to the concepts and making sure I can explain it properly.</h6>
+</section>
+<section id="i-would-give-myself-a-strong-on-this-assignment-as-i-accomplished-all-the-task-given-in-a-clear-consise-format.-i-did-not-go-too-in-depth-on-the-design-of-the-plots-as-i-did-not-want-to-add-a-lot-more-time-on-the-assignment." class="level6">
+<h6 class="anchored" data-anchor-id="i-would-give-myself-a-strong-on-this-assignment-as-i-accomplished-all-the-task-given-in-a-clear-consise-format.-i-did-not-go-too-in-depth-on-the-design-of-the-plots-as-i-did-not-want-to-add-a-lot-more-time-on-the-assignment.">5) I would give myself a strong on this assignment as I accomplished all the task given in a clear consise format. I did not go too in depth on the design of the plots as I did not want to add a lot more time on the assignment.</h6>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
