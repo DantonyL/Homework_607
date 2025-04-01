@@ -15,16 +15,12 @@ website:
         href: https://github.com/DantonyL
     left: 
       - href: index.qmd
-        text: "Home"
-      - href: HW1_Intro_to_R.qmd
-        text: "HW1 Intro to R"
-      - href: HW2_ggplot.qmd
-        text: "HW2 ggplot"
-      - href: HW3_Tidy_Data.qmd
-        text: "HW3 Tidy Data"
-      - href: HW4_Sampling.qmd
-      - text: "HW4 Sampling"
-      - href: HW5_Linear_Regression.qmd
-      - text: "HW5 Linear Regression"
+      - text: "Home"
+      - HW1_Intro_to_R.qmd
+      - HW2_ggplot.qmd
+      - HW3_Tidy_Data.qmd
+      - HW4_Sampling.qmd
+      - HW5_Linear_Regression.qmd
+      - HW6_Complex_Linear_Model.qmd
       
   
