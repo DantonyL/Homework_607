@@ -163,7 +163,7 @@ I think in the future with models we are going to apply the biological world whe
 Something I find interesting is the visualization opportunities that arise with these interaction effects. I find most intimidating is analyzing them into the real world problem, but I think this is something I will improve on in the future.
 
 #### 3.
-I think I will use complex models like this in the future regularly due to me being interested in computational biology more specifically biomedical informatics where there will be tons of genomes to compare. 
+I think I will use complex models like this in the future regularly due to me being interested in computational biology more specifically Biomedical Informatics where there will be tons of genomes to compare. 
 
 #### 4. 
 My concern in the future is how to decipher if I should use a linear model or a new one and making sure my assumptions pass. 
