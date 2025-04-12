@@ -326,7 +326,7 @@
     "href": "HW6_Complex_Linear_Model.html#meta-questions",
     "title": "HW6 Complex Linear Models",
     "section": "Meta Questions",
-    "text": "Meta Questions\n\n1.\nI think in the future with models we are going to apply the biological world where there are a lot more influences as well as data collection errors.\n\n\n2.\nSomething I find interesting is the visualization opportunities that arise with these interaction effects. I find most intimidating is analyzing them into the real world problem, but I think this is something I will improve on in the future.\n\n\n3.\nI think I will use complex models like this in the future regularly due to me being interested in computational biology more specifically biomedical informatics where there will be tons of genomes to compare.\n\n\n4.\nMy concern in the future is how to decipher if I should use a linear model or a new one and making sure my assumptions pass.\n\n\n5.\nThis assignment took me less time then previous assignments only taking me 2 hours to complete.\n\n\n6.\nI would give myself a sufficient grade for this assignment as I completed everything required but did not to challenge myself completely when it comes to visualization as I have done in the past."
+    "text": "Meta Questions\n\n1.\nI think in the future with models we are going to apply the biological world where there are a lot more influences as well as data collection errors.\n\n\n2.\nSomething I find interesting is the visualization opportunities that arise with these interaction effects. I find most intimidating is analyzing them into the real world problem, but I think this is something I will improve on in the future.\n\n\n3.\nI think I will use complex models like this in the future regularly due to me being interested in computational biology more specifically Biomedical Informatics where there will be tons of genomes to compare.\n\n\n4.\nMy concern in the future is how to decipher if I should use a linear model or a new one and making sure my assumptions pass.\n\n\n5.\nThis assignment took me less time then previous assignments only taking me 2 hours to complete.\n\n\n6.\nI would give myself a sufficient grade for this assignment as I completed everything required but did not to challenge myself completely when it comes to visualization as I have done in the past."
   },
   {
     "objectID": "HW5_Linear_Regression.html",
@@ -376,5 +376,208 @@
     "title": "HW5 Correlation & Linear Models",
     "section": "Meta Questions",
     "text": "Meta Questions\n\n1) I feel pretty confident within the assumption testing, just need to figure out where I should draw the line on differences within the assumption testing.\n\n\n2) I feel I am getting a good understanding of confidence intervals and prediction intervals including their differences. One thing I am struggling on is determining association of variables due to the many factors\n\n\n3) Yes I see how a simulation can be used with a fit model in order to test the validity of the model and if you can use it to predict an outcome of a specific measurement.\n\n\n4) This one took me a lil longer then expected due to illness and catching up on reading. I believe it took me 3.5 hours to complete, due to the concepts and making sure I can explain it properly.\n\n\n5) I would give myself a strong on this assignment as I accomplished all the task given in a clear consise format. I did not go too in depth on the design of the plots as I did not want to add a lot more time on the assignment."
+  },
+  {
+    "objectID": "Midterm.html",
+    "href": "Midterm.html",
+    "title": "Midterm",
+    "section": "",
+    "text": "library(tidyverse)\ncov19 &lt;- read_csv(\"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/refs/heads/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv\")\n\n\n\n\n\ncov19_cali &lt;- \n  cov19 |&gt;\n  filter(Province_State == \"California\")\n\nlong_cov19_cali &lt;- \n  cov19_cali |&gt;\n select(-c(UID, iso2, iso3, code3, FIPS, Admin2, Country_Region, Lat, Long_, Combined_Key)) |&gt;\n  group_by(Province_State) |&gt;\n  pivot_longer(\n    cols = -Province_State,\n    names_to = \"date_col\",\n    values_to = \"cumulative_cases\"\n  ) |&gt;\n  mutate( date_col = mdy(date_col),\n    new_cases = c(NA, diff(cumulative_cases)))\n\n\n\n\n\ncov19_2020 &lt;- \n  long_cov19_cali |&gt;\n  filter(date_col&lt;\"2021-01-01\")\n\ncov19_plot &lt;- ggplot(cov19_2020,\n                     aes(x = date_col, y = cumulative_cases)) +\n  geom_line(color = \"cyan\", size = 1) +\n  scale_y_continuous(name=\"Cumulative Cases\", labels = scales::comma) +\n  labs(title = \"Cumulative Covid-19 Cases within 2020\",\n       x = NA) +\n  theme_dark() +\n  theme(axis.title.x=element_blank(),\n        axis.text.x=element_blank(),\n        axis.ticks.x=element_blank()) \n\ncov19_plot"
+  },
+  {
+    "objectID": "Midterm.html#a.",
+    "href": "Midterm.html#a.",
+    "title": "Midterm",
+    "section": "",
+    "text": "library(tidyverse)\ncov19 &lt;- read_csv(\"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/refs/heads/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv\")"
+  },
+  {
+    "objectID": "Midterm.html#b.",
+    "href": "Midterm.html#b.",
+    "title": "Midterm",
+    "section": "",
+    "text": "cov19_cali &lt;- \n  cov19 |&gt;\n  filter(Province_State == \"California\")\n\nlong_cov19_cali &lt;- \n  cov19_cali |&gt;\n select(-c(UID, iso2, iso3, code3, FIPS, Admin2, Country_Region, Lat, Long_, Combined_Key)) |&gt;\n  group_by(Province_State) |&gt;\n  pivot_longer(\n    cols = -Province_State,\n    names_to = \"date_col\",\n    values_to = \"cumulative_cases\"\n  ) |&gt;\n  mutate( date_col = mdy(date_col),\n    new_cases = c(NA, diff(cumulative_cases)))"
+  },
+  {
+    "objectID": "Midterm.html#c.",
+    "href": "Midterm.html#c.",
+    "title": "Midterm",
+    "section": "",
+    "text": "cov19_2020 &lt;- \n  long_cov19_cali |&gt;\n  filter(date_col&lt;\"2021-01-01\")\n\ncov19_plot &lt;- ggplot(cov19_2020,\n                     aes(x = date_col, y = cumulative_cases)) +\n  geom_line(color = \"cyan\", size = 1) +\n  scale_y_continuous(name=\"Cumulative Cases\", labels = scales::comma) +\n  labs(title = \"Cumulative Covid-19 Cases within 2020\",\n       x = NA) +\n  theme_dark() +\n  theme(axis.title.x=element_blank(),\n        axis.text.x=element_blank(),\n        axis.ticks.x=element_blank()) \n\ncov19_plot"
+  },
+  {
+    "objectID": "Midterm.html#ab.",
+    "href": "Midterm.html#ab.",
+    "title": "Midterm",
+    "section": "2a/b.",
+    "text": "2a/b.\n\n# Load Data\nmorph &lt;- read_csv(\"data/Morphology+data.csv\")\n# Examine the data looking at understanding each variable \nhead(morph)\n\n# A tibble: 6 × 10\n  `Bird #` Sex   `Age (days)` `Exp. Temp. (degree C)` `Mass (g)` `Tarsus (mm)`\n     &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;                   &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;\n1        1 &lt;NA&gt;             5                      15       16.1          19.4\n2        2 m                5                      15       19.2          20.4\n3        3 f                5                      15       17.5          19.0\n4        4 m                5                      15       14.4          20.1\n5        5 f                5                      15       17.4          21.8\n6        6 m                5                      15       15.7          19.8\n# ℹ 4 more variables: `Culmen (mm)` &lt;dbl&gt;, `Depth (mm)` &lt;dbl&gt;,\n#   `Width (mm)` &lt;dbl&gt;, NOTES &lt;chr&gt;\n\n# Looking at the types of variables the data contains\n# Also, looking for NA's and categorical labeling consistency \nstr(morph)\n\nspc_tbl_ [880 × 10] (S3: spec_tbl_df/tbl_df/tbl/data.frame)\n $ Bird #               : num [1:880] 1 2 3 4 5 6 7 8 9 10 ...\n $ Sex                  : chr [1:880] NA \"m\" \"f\" \"m\" ...\n $ Age (days)           : num [1:880] 5 5 5 5 5 5 5 5 5 5 ...\n $ Exp. Temp. (degree C): num [1:880] 15 15 15 15 15 15 15 15 15 15 ...\n $ Mass (g)             : num [1:880] 16.1 19.2 17.5 14.4 17.4 ...\n $ Tarsus (mm)          : num [1:880] 19.4 20.4 19 20.1 21.8 ...\n $ Culmen (mm)          : num [1:880] 7.64 7.49 7.31 7.34 8.24 6.82 7.84 7.39 7.4 7.81 ...\n $ Depth (mm)           : num [1:880] 4.23 4.46 3.92 3.85 4.42 3.65 3.94 3.72 4.5 4.09 ...\n $ Width (mm)           : num [1:880] 4.49 4.44 4.01 4.22 4.56 3.73 4.6 4.66 3.83 3.89 ...\n $ NOTES                : chr [1:880] NA NA NA NA ...\n - attr(*, \"spec\")=\n  .. cols(\n  ..   `Bird #` = col_double(),\n  ..   Sex = col_character(),\n  ..   `Age (days)` = col_double(),\n  ..   `Exp. Temp. (degree C)` = col_double(),\n  ..   `Mass (g)` = col_double(),\n  ..   `Tarsus (mm)` = col_double(),\n  ..   `Culmen (mm)` = col_double(),\n  ..   `Depth (mm)` = col_double(),\n  ..   `Width (mm)` = col_double(),\n  ..   NOTES = col_character()\n  .. )\n - attr(*, \"problems\")=&lt;externalptr&gt; \n\n# Preparing for analysis we need to manipulate data \n# Including modifying variable labels for ease of coding\nmorph_clean &lt;- \n  morph |&gt;\n  mutate(\n    ID = as.factor(`Bird #`),\n    Age_days = as.factor(`Age (days)`),\n    Tarus_mm = `Tarsus (mm)`,\n    Exp_Temp_C = `Exp. Temp. (degree C)`\n  ) |&gt;\n  select(-c(`Bird #`, `Age (days)`, `Tarsus (mm)`, `Exp. Temp. (degree C)`))\nstr(morph_clean)\n\ntibble [880 × 10] (S3: tbl_df/tbl/data.frame)\n $ Sex        : chr [1:880] NA \"m\" \"f\" \"m\" ...\n $ Mass (g)   : num [1:880] 16.1 19.2 17.5 14.4 17.4 ...\n $ Culmen (mm): num [1:880] 7.64 7.49 7.31 7.34 8.24 6.82 7.84 7.39 7.4 7.81 ...\n $ Depth (mm) : num [1:880] 4.23 4.46 3.92 3.85 4.42 3.65 3.94 3.72 4.5 4.09 ...\n $ Width (mm) : num [1:880] 4.49 4.44 4.01 4.22 4.56 3.73 4.6 4.66 3.83 3.89 ...\n $ NOTES      : chr [1:880] NA NA NA NA ...\n $ ID         : Factor w/ 40 levels \"1\",\"2\",\"3\",\"4\",..: 1 2 3 4 5 6 7 8 9 10 ...\n $ Age_days   : Factor w/ 22 levels \"5\",\"7\",\"9\",\"11\",..: 1 1 1 1 1 1 1 1 1 1 ...\n $ Tarus_mm   : num [1:880] 19.4 20.4 19 20.1 21.8 ...\n $ Exp_Temp_C : num [1:880] 15 15 15 15 15 15 15 15 15 15 ..."
+  },
+  {
+    "objectID": "Midterm.html#c.-1",
+    "href": "Midterm.html#c.-1",
+    "title": "Midterm",
+    "section": "2c.",
+    "text": "2c.\n\nlibrary(ggthemes)\nmorph_plot &lt;- \n  ggplot(morph_clean, \n         aes(x = Age_days, y = Tarus_mm, colour = Age_days)) +\n  facet_wrap(~Exp_Temp_C) +\n  geom_boxplot() +\n  scale_color_viridis_d(direction = -1, option = \"B\") +\n  labs(\n    title = \"Tarsus Length vs Age by Treatment\",\n    x = \"Age (days)\",\n    y = \"Tarsus Length (mm)\"\n  ) +\n  theme_calc(base_size = 8)\nmorph_plot"
+  },
+  {
+    "objectID": "Midterm.html#d.",
+    "href": "Midterm.html#d.",
+    "title": "Midterm",
+    "section": "2d.",
+    "text": "2d.\nLooking at the fit model assumptions, the only concern is the positive predictive check where our model predicted data is not exactly the same as out observed data. It was warned on the assignment so not too much of a concern, may be due to deaths or issues along the experiment.\n\nlibrary(performance)\nlibrary(car)\nlibrary(effectsize)\nlibrary(broom)\nlibrary(visreg)\nmorph_clean$Age_days &lt;- as.numeric(morph_clean$Age_days)\n\nmorph_mlr &lt;- lm(Tarus_mm ~ Age_days * Exp_Temp_C\n                , data = morph_clean)\ncheck_model(morph_mlr)"
+  },
+  {
+    "objectID": "Midterm.html#e.",
+    "href": "Midterm.html#e.",
+    "title": "Midterm",
+    "section": "2e.",
+    "text": "2e.\n\nlibrary(emmeans)\ntidy(morph_mlr)\n\n# A tibble: 4 × 5\n  term                estimate std.error statistic   p.value\n  &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 (Intercept)         20.7       0.712      29.0   1.61e-125\n2 Age_days             0.888     0.0570     15.6   1.14e- 47\n3 Exp_Temp_C           0.0254    0.0301      0.844 3.99e-  1\n4 Age_days:Exp_Temp_C  0.00344   0.00240     1.43  1.53e-  1\n\nvisreg(morph_mlr, \"Age_days\", by = \"Exp_Temp_C\", gg = TRUE, type = \"contrast\") + \n  theme_clean() +\n  labs(title = \"Interaction Model\",\n       y = \"Tarus Length (mm)\",\n       x = \"Age (days)\")"
+  },
+  {
+    "objectID": "Midterm.html#a.-1",
+    "href": "Midterm.html#a.-1",
+    "title": "Midterm",
+    "section": "3a.",
+    "text": "3a.\nYes my model does meet assumptions only thing concerning is the end of the residuals. I chose a gamma error distribution because our response variable is positive and continous\n\nlibrary(glmmTMB)\n\ndata &lt;- read_csv(\"data/greenhouse_inoculation_expt_2010.csv\")\n\nmar12 &lt;- data |&gt;\n    select(rhiz_region, height_mar12, leaf_mar12)\n\nmar12_glm &lt;- glm(leaf_mar12 ~ rhiz_region + height_mar12, \n            family = Gamma(link = \"log\"), data = mar12)\n  \ncheck_model(mar12_glm)"
+  },
+  {
+    "objectID": "Midterm.html#b.-1",
+    "href": "Midterm.html#b.-1",
+    "title": "Midterm",
+    "section": "3b.",
+    "text": "3b.\nLooking at the estimated marginal means plot below we can see that the rhizobial regions edge and interior enables more leaves relative to the control, while the beyond region enables less leaves relative to the control.\n\nemmeans(mar12_glm, pairwise ~ rhiz_region, ggplot = TRUE) |&gt;\n  plot(comparisons = TRUE) +\n  labs(y = \"Rhizobial Regions\") +\n  theme_clean()"
+  },
+  {
+    "objectID": "Midterm.html#c.-2",
+    "href": "Midterm.html#c.-2",
+    "title": "Midterm",
+    "section": "3c.",
+    "text": "3c.\n\nlambda &lt;- 1:30\n\npoisson_bounds &lt;- tibble(\n  lambda = lambda,\n  lower = qpois(0.025, lambda),\n  upper = qpois(0.975, lambda)\n)\n\nggplot(poisson_bounds, aes(x = lambda)) +\n  geom_ribbon(aes(ymin = lower, ymax = upper), fill = \"lightblue\", alpha = 0.5) +\n  geom_line(aes(y = lambda), color = \"black\") +\n  labs(title = \"95% Prediction Interval: Poisson\", y = \"Count\", x = \"Lambda\")\n\n\n\n\n\n\n\n\nNegative Binomial\n\nsize &lt;- 10\nnb_bounds &lt;- tibble(\n  mean_lambda = lambda,\n  lower = qnbinom(0.025, size = size, mu = mean_lambda),\n  upper = qnbinom(0.975, size = size, mu = mean_lambda)\n)\n\nggplot(nb_bounds, aes(x = mean_lambda)) +\n  geom_ribbon(aes(ymin = lower, ymax = upper), fill = \"lightgreen\", alpha = 0.5) +\n  geom_line(aes(y = mean_lambda), color = \"black\") +\n  labs(title = \"95% Prediction Interval: Negative Binomial\", y = \"Count\", x = \"Mean\")"
+  },
+  {
+    "objectID": "Midterm.html#d.-1",
+    "href": "Midterm.html#d.-1",
+    "title": "Midterm",
+    "section": "3d.",
+    "text": "3d.\n\nlibrary(MASS)\n\nheight_vals &lt;- mar12 |&gt;\n  summarise(min = min(height_mar12),\n            mean = mean(height_mar12),\n            max = max(height_mar12)) |&gt;\n  pivot_longer(everything(), names_to = \"height_level\", values_to = \"height_mar12\")\n\nnew_mar12 &lt;- expand.grid(rhiz_region = unique(mar12$rhiz_region),\n                       height_mar12 = height_vals$height_mar12)\n  \nnew_mar12_aug &lt;- augment(mar12_glm, newdata = new_mar12, se_fit = TRUE)\n\n# Gamma Prediction Intervals & Confidence Intervals\ngamma_shape &lt;- gamma.shape(mar12_glm)$alpha\n\nnew_mar12_aug &lt;- new_mar12_aug |&gt;\n  mutate(\n    fit_resp = exp(.fitted),\n    lower_CI = exp(.fitted - 2 * .se.fit),\n    upper_CI = exp(.fitted + 2 * .se.fit),\n    lower_PI = qgamma(0.025, \n                      shape = gamma_shape, \n                      scale = fit_resp / gamma_shape),\n    upper_PI = qgamma(0.975, \n                      shape = gamma_shape, \n                      scale = fit_resp / gamma_shape))\n\nggplot(new_mar12_aug, aes(x = height_mar12, y = fit_resp)) +\n  stat_smooth(method = glm,\n              method.args = list(family = Gamma(link = \"log\")),\n              color = \"black\") +\n  facet_wrap(~rhiz_region) +\n  geom_ribbon(aes(ymin = lower_CI, ymax = upper_CI), alpha = 0.5, linewidth = 0.3, fill = \"cyan\") +\n  geom_ribbon(aes(ymin = lower_PI, ymax = upper_PI), alpha = 0.2, linewidth = 0.5, linetype = 2, color = \"orange\") +\n  labs(\n    title = \"Fitted Leaf Count on March 12 by Height and Rhizobial Region\",\n    subtitle = \"95% Confidence and Prediction Intervals\",\n    x = \"Plant Height March 12 (cm)\",\n    y = \"Fitted Values\",\n    caption = \"Blue Shaded Area = 95% CI\\nDashed Orange Lines = 95% PI\") +\n  theme_clean()"
+  },
+  {
+    "objectID": "Midterm.html#e.-1",
+    "href": "Midterm.html#e.-1",
+    "title": "Midterm",
+    "section": "3e.",
+    "text": "3e.\n\nlibrary(sinterval)\nlibrary(ggdist)\n\n# Simulating Range\nheight_range &lt;- seq(min(mar12$height_mar12), max(mar12$height_mar12), length.out = 66)\n\nmar12_range &lt;- expand.grid(\n  rhiz_region = unique(mar12$rhiz_region),\n  height_mar12 = height_range)\n\nfit_sims &lt;- add_fitted_sims(mar12_range, mar12_glm)\npred_sims &lt;- add_predicted_sims(mar12_range, mar12_glm)\n\n\nfit_plot &lt;- ggplot(fit_sims,\n                   aes(x = height_mar12, \n                       y = leaf_mar12_fit, \n                       color = rhiz_region, fill = rhiz_region)) +\n  stat_lineribbon(aes(y = leaf_mar12_fit), alpha = 0.3, color = NA) +\n  stat_summary(fun = mean, geom = \"line\", size = 1) +\n  facet_wrap(~rhiz_region) +\n  labs(title = \"Fit Intervals\",\n       y = \"Fit Leaf March 12\",\n       x = \"Height March 12\") +\n  theme_clean() +\n  theme(legend.position = \"none\")\n  \n\nfit_plot\n\n\n\n\n\n\n\n\n\npred_plot &lt;- ggplot(pred_sims,\n                   aes(x = height_mar12, \n                       y = leaf_mar12_predict, \n                       color = rhiz_region, fill = rhiz_region)) +\n  stat_lineribbon(aes(y = leaf_mar12_predict), alpha = 0.3, color = NA) +\n  stat_summary(fun = mean, geom = \"line\", size = 1) +\n  facet_wrap(~rhiz_region) +\n  labs(title = \"Predition Intervals\",\n       y = \"Leaf March 12 Prediction\",\n       x = \"Height March 12\") +\n  theme_clean() +\n  theme(legend.position = \"none\")\n  \n\npred_plot"
+  },
+  {
+    "objectID": "Midterm.html#a.-2",
+    "href": "Midterm.html#a.-2",
+    "title": "Midterm",
+    "section": "4a.",
+    "text": "4a.\n\nreedfrogs &lt;- read_delim(\"https://github.com/rmcelreath/rethinking/raw/master/data/reedfrogs.csv\",\n                        delim = \";\") |&gt;\n  mutate(tank = 1:n() |&gt; as.character(),\n         died = density - surv)\n\nreed_plot &lt;- ggplot(reedfrogs, \n                     aes(x = size, y = surv / density, color = pred)) +\n  geom_jitter(width = 0.1) +\n  labs(y = \"Proportion survived\", x = \"Tank size\") +\n  theme_clean()\nreed_plot\n\n\n\n\n\n\n\n\n\nreedfrogs_expanded &lt;- reedfrogs |&gt;\n  group_by(tank, size, pred, density) |&gt;\n  reframe(status = c(rep(1, surv), rep(0, died))) |&gt;\n  ungroup()\n\nreed_expanded_plot &lt;- ggplot(reedfrogs_expanded, \n                             aes(x = pred, y = status, color = size)) +\n  geom_jitter(width = 0.2, height = 0.05, alpha = 0.3) +\n  labs(title = \"Individual outcomes per tank\", y = \"Survival (1 = lived, 0 = died)\") +\n  facet_wrap(~size) +\n  theme_minimal()\n\nreed_expanded_plot\n\n\n\n\n\n\n\n\nYou can see within smaller tank there is slight greater survivorship compared to the big tanks as we can see in both plots."
+  },
+  {
+    "objectID": "Midterm.html#b.-2",
+    "href": "Midterm.html#b.-2",
+    "title": "Midterm",
+    "section": "4b.",
+    "text": "4b.\n\nreed_glm &lt;- glm(\n  cbind(surv, died) ~ pred * size,\n  data = reedfrogs,\n  family = binomial)\n\ncheck_overdispersion(reed_glm)\n\n# Overdispersion test\n\n dispersion ratio = 1.032\n          p-value = 0.448"
+  },
+  {
+    "objectID": "Midterm.html#c.-3",
+    "href": "Midterm.html#c.-3",
+    "title": "Midterm",
+    "section": "4c.",
+    "text": "4c.\nThe overdispersion when fit a mixed model with random tank effect is lower, in this mix model we group the tables by their tank rather than treated as independents.\n\nlibrary(lme4)\n\nreed_mm &lt;- glmer(\n  cbind(surv, died) ~ pred * size + (1 | tank),\n  data = reedfrogs,\n  family = binomial)\n\ncheck_overdispersion(reed_mm)\n\n# Overdispersion test\n\n dispersion ratio = 0.984\n          p-value = 0.776"
+  },
+  {
+    "objectID": "Midterm.html#d.-2",
+    "href": "Midterm.html#d.-2",
+    "title": "Midterm",
+    "section": "4d.",
+    "text": "4d.\nIn model with intercepts compared to without, there is slightly any change to the estimate but the standard error increases with the fixed intercept model. This is to the grouping of tadpoles within the tank in the mixed model compared to the individual tadpoles in the other model\n\nlibrary(broom.mixed)\n\ncoef(reed_glm)\n\n       (Intercept)           predpred          sizesmall predpred:sizesmall \n         2.6200814         -3.1923467         -0.1581643          1.0620058 \n\nfixef(reed_mm)\n\n       (Intercept)           predpred          sizesmall predpred:sizesmall \n         2.7472458         -3.2056524         -0.1597944          1.0820274 \n\ntidy(reed_glm) |&gt; filter(term != \"(Intercept)\")\n\n# A tibble: 3 × 5\n  term               estimate std.error statistic  p.value\n  &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 predpred             -3.19      0.268   -11.9   1.16e-32\n2 sizesmall            -0.158     0.325    -0.486 6.27e- 1\n3 predpred:sizesmall    1.06      0.369     2.88  3.97e- 3\n\ntidy(reed_mm) |&gt; filter(effect == \"fixed\")\n\n# A tibble: 4 × 7\n  effect group term               estimate std.error statistic  p.value\n  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 fixed  &lt;NA&gt;  (Intercept)           2.75      0.323     8.51  1.69e-17\n2 fixed  &lt;NA&gt;  predpred             -3.21      0.400    -8.02  1.07e-15\n3 fixed  &lt;NA&gt;  sizesmall            -0.160     0.444    -0.360 7.19e- 1\n4 fixed  &lt;NA&gt;  predpred:sizesmall    1.08      0.558     1.94  5.26e- 2"
+  },
+  {
+    "objectID": "Midterm.html#e.-2",
+    "href": "Midterm.html#e.-2",
+    "title": "Midterm",
+    "section": "4e.",
+    "text": "4e.\n\nlibrary(modelbased)\n \nestimate_means(reed_mm, at = c(\"pred\", \"size\"), type = \"response\") |&gt; \n  plot()\n\n\n\n\n\n\n\nreed_contrasts &lt;- estimate_contrasts(reed_mm, at = c(\"pred\", \"size\"), type = \"response\")\n\nreed_contrasts$contrast &lt;- rownames(reed_contrasts)\n\nreed_contrasts_plot &lt;-  ggplot(reed_contrasts, aes(x = Difference, y = contrast)) +\n  geom_point(size = 3, color = \"steelblue\") +\n  geom_errorbarh(aes(xmin = CI_low, xmax = CI_high), height = 0.2, color = \"steelblue\") +\n  geom_vline(xintercept = 0, linetype = \"dashed\", color = \"gray50\") +\n  geom_text(aes(label = round(Difference, 2)),\n            hjust = -0.3, size = 3.5, color = \"black\") +\n  labs(x = \"Predicted Difference in Survival Probability\",\n       y = \"Contrast Group\",\n       title = \"Model Based Contrasts\") +\n  theme_clean()\n  \nview_contrast &lt;- reed_contrasts[, c(\"contrast\", \"Difference\", \"Level1\", \"Level2\")]\nview_contrast\n\ncontrast | Difference | Level1      | Level2   \n-----------------------------------------------\n1        |      -0.01 | no, small   | no, big  \n2        |      -0.55 | pred, big   | no, big  \n3        |      -0.33 | pred, small | no, big  \n4        |      -0.53 | pred, big   | no, small\n5        |      -0.32 | pred, small | no, small\n6        |       0.22 | pred, small | pred, big\n\nreed_contrasts_plot"
+  },
+  {
+    "objectID": "Midterm.html#a.-3",
+    "href": "Midterm.html#a.-3",
+    "title": "Midterm",
+    "section": "A.",
+    "text": "A.\nI am doing okay, I have gotten a little lost when it comes to mixed models and beyond but with this and more review I will gain a better grasp."
+  },
+  {
+    "objectID": "Midterm.html#b.-3",
+    "href": "Midterm.html#b.-3",
+    "title": "Midterm",
+    "section": "B.",
+    "text": "B.\nAfter completing this I feel fairly confident in linear models and working on feeling more confident in generalized linear models and mixed models."
+  },
+  {
+    "objectID": "Midterm.html#c.-4",
+    "href": "Midterm.html#c.-4",
+    "title": "Midterm",
+    "section": "C.",
+    "text": "C.\nI find data manipulation and coding itself the easiest just struggle to fully grasp the statistical process"
+  },
+  {
+    "objectID": "Midterm.html#d.-3",
+    "href": "Midterm.html#d.-3",
+    "title": "Midterm",
+    "section": "D.",
+    "text": "D.\nI’d say it is going fairly well, it is something I am enjoying to practice and hopefully can continue to do as a career."
+  },
+  {
+    "objectID": "Midterm.html#e.-3",
+    "href": "Midterm.html#e.-3",
+    "title": "Midterm",
+    "section": "E.",
+    "text": "E.\nI see applying coding in various other was such as data collection as well as I have seen it used for data transferring and uploading."
+  },
+  {
+    "objectID": "Midterm.html#f.",
+    "href": "Midterm.html#f.",
+    "title": "Midterm",
+    "section": "F.",
+    "text": "F.\nI see the most opportunities for growth at the moment within the concepts themselves, I find myself going back to lectures and labs to understand concepts fully and that benefits me the most."
+  },
+  {
+    "objectID": "Midterm.html#g.",
+    "href": "Midterm.html#g.",
+    "title": "Midterm",
+    "section": "G.",
+    "text": "G.\nI began doing most of the optional readings and that helped me a bunch with beginning coding skill and statistical processes. As the semester has gone by I have missed a few reading that may have been critical to my growth. This is something I intend on going back a reading to build my knowledge."
+  },
+  {
+    "objectID": "Midterm.html#h.",
+    "href": "Midterm.html#h.",
+    "title": "Midterm",
+    "section": "H.",
+    "text": "H.\nIt was a mixture of both comfortable and some challenging tasks, I did not struggle making the models my main issue was visualizing and comprehending my assumptions correctly. This was a good challenge to make sure I understand what I am coding as the questions challenged me to think harder."
+  },
+  {
+    "objectID": "Midterm.html#i.",
+    "href": "Midterm.html#i.",
+    "title": "Midterm",
+    "section": "I.",
+    "text": "I.\nStrong, the only task I did not complete was 4f. as I was running out of time. It may have been difficult for me to begin the question but I am sure I would be able to figure it out. For the rest of the assignment I believe everything was completed to its fullest including the usage of recommenced programs that were not required."
+  },
+  {
+    "objectID": "Midterm.html#j.",
+    "href": "Midterm.html#j.",
+    "title": "Midterm",
+    "section": "J.",
+    "text": "J.\nWhen it comes to the entirety of the semester so far I believe I also would asses myself as strong. This is due to my effort in the homework assignment, making sure I go above and beyond. As well as my constant viewing of past content if I have confusion allows me to stay on task with the topics."
+  },
+  {
+    "objectID": "Midterm.html#k.",
+    "href": "Midterm.html#k.",
+    "title": "Midterm",
+    "section": "K.",
+    "text": "K.\nI don’t have any specific goals for the rest of this course, I do wish to accomplish a few more things and gather as much knowledge as I can prior to the course finish. I am currently graduating in May so it is nice to have the expirence so I understand the options that are out there in the biology world."
   }
 ]
